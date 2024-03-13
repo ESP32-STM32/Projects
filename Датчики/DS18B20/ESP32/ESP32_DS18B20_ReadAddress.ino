@@ -14,7 +14,7 @@ void setup() {
   numberOfDevices = sensors.getDeviceCount();  // Получение количества подключенных датчиков
 }
 void loop() {
-  if (millis() - tmr >= 800) {
+  if (millis() - tmr >= 800) {      // Условие которое срабатывает через каждые 800 миллисекунд
     tmr = millis();                 // Обнуление таймера
     sensors.requestTemperatures();  // Запрос температуры
     for (int i = 0; i < numberOfDevices; i++) {
