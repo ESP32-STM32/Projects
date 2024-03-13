@@ -13,7 +13,7 @@ void setup(void) {
 }
 
 void loop(void) {
-  if (millis() - tmr >= 800) {
+  if (millis() - tmr >= 800) {                 // Условие которое срабатывает через каждые 800 миллисекунд
     tmr = millis();                            // Обнуление таймера
     sensors.requestTemperatures();             // Запрос температуры
     float tempC = sensors.getTempCByIndex(0);  // Получение температуры
