@@ -17,23 +17,27 @@ void setup() {
   tft.println("Привет");
   tft.unloadFont();
 
-  tft.setCursor(0, 144, 2);
-  tft.print("Ob'em pamyati: ");
-  if (SD.totalBytes() > 1073741824) {
-    tft.print(float(SD.totalBytes()) / (1048576 * 1024));
-    tft.println(" GB");
-  } else SystemSize(SD.totalBytes());
-  tft.print("Zanyato pamyati: ");
-  if (SD.usedBytes() > 1073741824) {
-    tft.print(float(SD.usedBytes()) / (1048576 * 1024));
-    tft.println(" GB");
-  } else SystemSize(SD.usedBytes());
+  SystemSize();
 }
 
 void loop() {
 }
 
-void SystemSize(int32_t fs) {
+void SystemSize() {
+  tft.setCursor(0, 144, 2);
+  tft.print("Ob'em pamyati: ");
+  if (SD.totalBytes() > 1073741824) {
+    tft.print(float(SD.totalBytes()) / (1048576 * 1024));
+    tft.println(" GB");
+  } else SystemSize1(SD.totalBytes());
+  tft.print("Zanyato pamyati: ");
+  if (SD.usedBytes() > 1073741824) {
+    tft.print(float(SD.usedBytes()) / (1048576 * 1024));
+    tft.println(" GB");
+  } else SystemSize1(SD.usedBytes());
+}
+
+void SystemSize1(int32_t fs) {
   if (fs >= 1048576) {
     tft.print((float(fs) / (1024 * 1024)));  // Мегабайты
     tft.println(" MB");
