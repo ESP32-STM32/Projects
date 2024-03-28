@@ -68,8 +68,9 @@ void Command() {
     test.pushSprite(0, 0, TFT_TRANSPARENT);
   } else if (input_string.equals("8") == true) {
     tft.fillScreen(TFT_BLACK);
+    tft.setCursor(0, 0);
     tft.loadFont(FONT);
-    //listDir(SD, "/Шрифты", 1);
+    //listDir(SD, "/Шрифты", 0);
     listDir(SD, "/", 0);
     tft.unloadFont();
   }
@@ -89,7 +90,6 @@ void readFile(fs::FS &fs, const char *path) {
 }
 
 void listDir(fs::FS &fs, const char *dirname, uint8_t levels) {
-  tft.setCursor(0, 0);
   File root = fs.open(dirname);
   if (!root) {
     tft.println("Не удалось открыть каталог");
