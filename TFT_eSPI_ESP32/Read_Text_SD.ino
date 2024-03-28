@@ -1,9 +1,9 @@
 #include <SD.h>
 #include <TFT_eSPI.h>
 
-#include "zCyrillicOld20.h"
+#include "zBrushT20.h"
 
-#define FONT zCyrillicOld20
+#define FONT zBrushT20
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite test = TFT_eSprite(&tft);
@@ -48,8 +48,7 @@ void loop() {
 }
 
 void Command() {
-  if (input_string.equals("6") == true)
-  {
+  if (input_string.equals("6") == true) {
     if (i != 0) i = i + 19;
     test.fillRect(0, 0, 220, 176, TFT_BLACK);
     test.setCursor(0, i);
@@ -67,6 +66,12 @@ void Command() {
     test.print(buffer);
     test.unloadFont();
     test.pushSprite(0, 0, TFT_TRANSPARENT);
+  } else if (input_string.equals("8") == true) {
+    tft.fillScreen(TFT_BLACK);
+    tft.loadFont(FONT);
+    //listDir(SD, "/Шрифты", 1);
+    listDir(SD, "/", 0);
+    tft.unloadFont();
   }
 }
 
@@ -81,4 +86,40 @@ void readFile(fs::FS &fs, const char *path) {
     buffer = file.readStringUntil('\n');
   }
   file.close();
+}
+
+void listDir(fs::FS &fs, const char *dirname, uint8_t levels) {
+  tft.setCursor(0, 0);
+  File root = fs.open(dirname);
+  if (!root) {
+    tft.println("Не удалось открыть каталог");
+    return;
+  }
+  if (!root.isDirectory()) {
+    tft.println("Каталог несуществует");
+    return;
+  }
+  File file = root.openNextFile();
+  while (file) {
+    if (file.isDirectory()) {
+      tft.println(file.name());
+      if (levels) {
+        listDir(fs, file.path(), levels - 1);
+      }
+    } else {
+      tft.print(file.name());
+      tft.print(" | ");
+      if (file.size() >= 1048576) {
+        tft.print((float(file.size()) / (1024 * 1024)));  // Мегабайты
+        tft.println(" МБ");
+      } else if (file.size() < 1048576 && file.size() >= 1024) {
+        tft.print(file.size() / 1024);  // Килобайты
+        tft.println(" КБ");
+      } else if (file.size() < 1024) {
+        tft.print(file.size());  // Байты
+        tft.println(" Б");
+      } else tft.println("Ошибка");
+    }
+    file = root.openNextFile();
+  }
 }
