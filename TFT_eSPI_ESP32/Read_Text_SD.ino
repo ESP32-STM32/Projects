@@ -25,7 +25,7 @@ void setup() {
   test.setTextColor(TFT_GREEN, TFT_BLACK);
 
   readFile(SD, "/Сказка.txt");
-  bufSize = buffer.length() / 4 / 24;
+  bufSize = buffer.length() / 2 / 24;
 
   //tft.loadFont("Шрифты/zCyrillicOld20", SD);
   tft.loadFont(zCyrillicOld20);
