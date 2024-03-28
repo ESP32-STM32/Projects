@@ -3,6 +3,8 @@
 
 #include "zCyrillicOld20.h"
 
+#define FONT zCyrillicOld20
+
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite test = TFT_eSprite(&tft);
 
@@ -28,7 +30,7 @@ void setup() {
   bufSize = buffer.length() / 2 / 24;
 
   //tft.loadFont("Шрифты/zCyrillicOld20", SD);
-  tft.loadFont(zCyrillicOld20);
+  tft.loadFont(FONT);
   tft.print(buffer);
   tft.unloadFont();
 }
@@ -52,7 +54,7 @@ void Command() {
     test.fillRect(0, 0, 220, 176, TFT_BLACK);
     test.setCursor(0, i);
     //test.loadFont("Шрифты/zCyrillicOld20", SD);
-    test.loadFont(zCyrillicOld20);
+    test.loadFont(FONT);
     test.print(buffer);
     test.unloadFont();
     test.pushSprite(0, 0, TFT_TRANSPARENT);
@@ -61,7 +63,7 @@ void Command() {
     test.fillRect(0, 0, 220, 176, TFT_BLACK);
     test.setCursor(0, i);
     //test.loadFont("Шрифты/zCyrillicOld20", SD);
-    test.loadFont(zCyrillicOld20);
+    test.loadFont(FONT);
     test.print(buffer);
     test.unloadFont();
     test.pushSprite(0, 0, TFT_TRANSPARENT);
