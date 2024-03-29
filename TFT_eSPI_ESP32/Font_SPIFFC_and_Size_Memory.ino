@@ -18,9 +18,12 @@ void setup() {
   tft.fillScreen(TFT_BLACK);               // Заполнение дисплея черным цветом
   tft.setTextColor(TFT_GREEN, TFT_BLACK);  // Установка цвета текста шрифта и цвета фона текста
   tft.setCursor(0, 4);
-  tft.loadFont(font1);   // Загрузка шрифта
+  tft.loadFont(font1);  // Загрузка шрифта
   tft.print("Привет");  // Вывод текста на дисплей из буфера
-  tft.unloadFont();     // Выгрузка шрифта
+
+  SystemSize();
+
+  tft.unloadFont();  // Выгрузка шрифта
 }
 
 void loop() {
@@ -40,17 +43,20 @@ void Command() {
 
     tft.fillScreen(TFT_BLACK);
     tft.setCursor(0, 4);
-    tft.loadFont(font1);   // Загрузка шрифта
+    tft.loadFont(font1);  // Загрузка шрифта
     tft.print("Привет");  // Вывод текста на дисплей из буфера
-    tft.unloadFont();     // Выгрузка шрифта
+
+    SystemSize();
+
+    tft.unloadFont();  // Выгрузка шрифта
 
   } else if (input_string.equals("7") == true) {
 
     tft.fillScreen(TFT_BLACK);
     tft.setCursor(0, 4);
-    tft.loadFont(font1);   // Загрузка шрифта
+    tft.loadFont(font1);      // Загрузка шрифта
     listDir(SPIFFS, "/", 0);  // Вывод списка файлов и папок на дисплей
-    tft.unloadFont();     // Выгрузка шрифта
+    tft.unloadFont();         // Выгрузка шрифта
   }
 }
 
@@ -87,4 +93,31 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels) {
     }
     file = root.openNextFile();
   }
+}
+
+void SystemSize() {
+  tft.setCursor(0, 144);
+  tft.print("Объем памяти: ");
+  if (SPIFFS.totalBytes() > 1073741824) {
+    tft.print(float(SPIFFS.totalBytes()) / (1048576 * 1024));
+    tft.println(" ГБ");
+  } else SystemSize1(SPIFFS.totalBytes());
+  tft.print("Занято памяти: ");
+  if (SPIFFS.usedBytes() > 1073741824) {
+    tft.print(float(SPIFFS.usedBytes()) / (1048576 * 1024));
+    tft.println(" ГБ");
+  } else SystemSize1(SPIFFS.usedBytes());
+}
+
+void SystemSize1(int32_t fs) {
+  if (fs >= 1048576) {
+    tft.print((float(fs) / (1024 * 1024)));  // Мегабайты
+    tft.println(" МБ");
+  } else if (fs < 1048576 && fs >= 1024) {
+    tft.print(fs / 1024);  // Килобайты
+    tft.println(" КБ");
+  } else if (fs < 1024) {
+    tft.print(fs);  // Байты
+    tft.println(" Б");
+  } else tft.println("Ошибка");
 }
