@@ -5,8 +5,8 @@
 
 TFT_eSPI tft = TFT_eSPI(); // Создание объекта для работы с дисплеем
 
-int count = 0;           // Батарейка
-static uint32_t tmrBAT;  // Батарейка
+int count = 0;           // Переменная для счетчика
+static uint32_t tmrBAT;  // Переменная для таймера
 
 void setup() {
   tft.init();                 // Инициализация объекта дисплея
