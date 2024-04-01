@@ -2,8 +2,8 @@
 #include <TFT_eSPI.h>
 #include <SD.h>
 
-//#include "FS.h"
-//#include "SPIFFS.h"
+// #include "FS.h"
+// #include "SPIFFS.h"
 
 #define DISPLAY_WIDTH 220
 #define DISPLAY_HEIGHT 176
@@ -15,8 +15,6 @@ TFT_eSPI tft = TFT_eSPI();
 AnimatedGIF gif;
 File f;
 
-bool flag = true;
-
 void setup() {
   if (!TYPE.begin()) {
     return;
@@ -26,8 +24,6 @@ void setup() {
   tft.setRotation(1);
   tft.fillScreen(TFT_BLACK);
   tft.setSwapBytes(true);  // Меняем порядок байтов цвета при рендеринге
-  tft.setTextFont(2);
-  tft.setTextColor(TFT_GREEN, TFT_BLACK);
   gif.begin(LITTLE_ENDIAN_PIXELS);
 }
 
