@@ -2,6 +2,9 @@
 #include <TFT_eSPI.h>
 #include <SD.h>
 
+//#include "FS.h"
+//#include "SPIFFS.h"
+
 #define DISPLAY_WIDTH 220
 #define DISPLAY_HEIGHT 176
 
