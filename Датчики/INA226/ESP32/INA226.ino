@@ -8,8 +8,8 @@ float calibrateINA = 0.1; // При уменьшении значения - по
 String input_string;
 
 void setup() {
-  // pinMode(32, OUTPUT);
-  // digitalWrite(32, HIGH);
+  // pinMode(15, OUTPUT);
+  // digitalWrite(15, HIGH);
   Serial.begin(115200);
   ina.begin(0x40);  // 0x45
   ina.configure(INA226_AVERAGES_16, INA226_BUS_CONV_TIME_1100US, INA226_SHUNT_CONV_TIME_1100US, INA226_MODE_SHUNT_BUS_CONT);
