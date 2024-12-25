@@ -11,14 +11,15 @@
 #define LOCAL_ON  // Подключатся к домашней сети
 //#define AP_ON     // Создать точку доступа
 
-#define LOCAL_SSID "default"  // Имя домашней WIFI сети
-#define LOCAL_PASS "12345678test"    // Пароль домашней WIFI сети
+#define LOCAL_SSID "default"       // Имя домашней WIFI сети
+#define LOCAL_PASS "12345678test"  // Пароль домашней WIFI сети
 
 #define AP_SSID "ESP32"     // Имя точки доступа
 #define AP_PASS "12345678"  // Пароль точки доступа
 
-const char* host = "esp32";  // http://esp32.local
+const char *host = "esp32";  // http://esp32.local
 unsigned long tmrHandle;
+unsigned long tmrLCD;
 uint64_t usedBytes = 0;
 uint64_t totalBytes = 0;
 
@@ -38,6 +39,7 @@ void handleFileUpload();
 
 void init() {
   Serial.begin(115200);
+  pinMode(2, OUTPUT);
 
 #ifdef LOCAL_ON
   WiFi.begin(LOCAL_SSID, LOCAL_PASS);
@@ -78,6 +80,10 @@ void handleUP() {
   if (millis() - tmrHandle >= 2) {
     tmrHandle = millis();
     server.handleClient();
+  }
+  if (millis() - tmrLCD >= 300) {
+    tmrLCD = millis();
+    digitalWrite(2, !digitalRead(2));
   }
 }
 
