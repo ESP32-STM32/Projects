@@ -16,7 +16,7 @@ String currentTimeSTR = "0:00";
 int fileDurationINT = 0;
 String fileDurationSTR = "0:00";
 
-int i = 2;  // Уровень громкости 0 - 21
+int i = 12;  // Уровень громкости 0 - 21
 String music[10];
 int sizeM = 0;
 int track = 0;
@@ -45,7 +45,7 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels) {
       }
     } else {
       String text = file.name();
-      if (text.endsWith(".mp3") || text.endsWith(".ogg") || text.endsWith(".m4a") || text.endsWith(".opus") || text.endsWith(".wav")) {
+      if (text.endsWith(".mp3") || text.endsWith(".m4a") || text.endsWith(".opus") || text.endsWith(".wav")) {
         Serial.println(file.name());
         music[m] = dirname + text;
         m++;
