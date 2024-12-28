@@ -47,7 +47,7 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels) {
       String text = file.name();
       if (text.endsWith(".mp3") || text.endsWith(".m4a") || text.endsWith(".opus") || text.endsWith(".wav")) {
         Serial.println(file.name());
-        if (dirname != "/") {
+        if (String(dirname) != "/") {
           music[m] = String(dirname) + "/" + String(text);
         } else {
           music[m] = dirname + text;
