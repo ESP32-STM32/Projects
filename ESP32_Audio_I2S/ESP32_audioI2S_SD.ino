@@ -47,7 +47,11 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels) {
       String text = file.name();
       if (text.endsWith(".mp3") || text.endsWith(".m4a") || text.endsWith(".opus") || text.endsWith(".wav")) {
         Serial.println(file.name());
-        music[m] = dirname + text;
+        if (dirname != "/") {
+          music[m] = String(dirname) + "/" + String(text);
+        } else {
+          music[m] = dirname + text;
+        }
         m++;
       }
     }
@@ -67,7 +71,7 @@ void setup() {
   audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);  // Закомментировать при DAC
   audio.setVolume(i);                            // 0...21
 
-  listDir(FILESYSTEM, "/", 0);
+  listDir(FILESYSTEM, "/Music", 0);
   Play(music[0]);
 }
 
@@ -145,7 +149,7 @@ void Command() {
       Play(music[track]);
     }
   } else if (input_string.equals("10") == true) {  // Заполнить массив треков и показать в serial
-    listDir(FILESYSTEM, "/", 0);
+    listDir(FILESYSTEM, "/Music", 0);
   } else if (input_string.equals("11") == true) {  // Включить повтор
     flagLoop = true;
     Serial.println("Повтор включен");
