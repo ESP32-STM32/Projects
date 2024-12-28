@@ -87,19 +87,21 @@ void loop() {
 
 void Command() {
   if (input_string.equals("1") == true) {  // Показать текущее и общее время трека
+    Serial.print("Текущее время ");
     currentTimeINT = audio.getAudioCurrentTime() / 60;
     if (currentTimeINT < 10) Serial.print("0");
     Serial.printf("%d:", currentTimeINT);
     currentTimeINT = audio.getAudioCurrentTime() - currentTimeINT * 60;
     if (currentTimeINT < 10) Serial.print("0");
     Serial.println(currentTimeINT);
-
+    Serial.print("Общее время ");
     fileDurationINT = audio.getAudioFileDuration() / 60;
     if (fileDurationINT < 10) Serial.print("0");
     Serial.printf("%d:", fileDurationINT);
     fileDurationINT = audio.getAudioFileDuration() - fileDurationINT * 60;
     if (fileDurationINT < 10) Serial.print("0");
     Serial.println(fileDurationINT);
+    Serial.println();
   } else if (input_string.equals("2") == true) {  // Громкость +
     if (i < 21) {
       i += 1;
