@@ -1,22 +1,22 @@
 #include "Audio.h"
 #include "SD.h"
 
-#define FILESYSTEM SD // SPIFFS или SD
+#define FILESYSTEM SD  // SPIFFS или SD
 
-#define I2S_DOUT 25 // DIN
-#define I2S_BCLK 27 // BCK
-#define I2S_LRC 26 // LRCK
+#define I2S_DOUT 25  // DIN
+#define I2S_BCLK 27  // BCK
+#define I2S_LRC 26   // LRCK
 
 //Audio audio(true, I2S_DAC_CHANNEL_BOTH_EN); // LEFT(26) | RIGHT(25) | Аналоговый сигнал DAC
 Audio audio;  // I2S PCM5102A GND = FMT, SCK, DEMP | 3V3 = XSMT // GND = FLT | Цифровой сигнал I2S
 
 String input_string;
 int currentTimeINT = 0;
-String currentTimeSTR = "0:00";
+String currentTimeSTR = "00:00";
 int fileDurationINT = 0;
-String fileDurationSTR = "0:00";
+String fileDurationSTR = "00:00";
 
-int i = 12;  // Уровень громкости 0 - 21
+int i = 21;  // Уровень громкости 0 - 21
 String music[10];
 int sizeM = 0;
 int track = 0;
@@ -60,12 +60,12 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels) {
 void setup() {
   Serial.begin(115200);
   while (!Serial) {};
-  if (!FILESYSTEM.begin()) { // Подключение SD карты 23 - MOSI 19 - MISO, 18 - CLK, 5 - CS
+  if (!FILESYSTEM.begin()) {  // Подключение SD карты 23 - MOSI 19 - MISO, 18 - CLK, 5 - CS
     return;
   }
-  
-  audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT); // Закомментировать при DAC
-  audio.setVolume(i);  // 0...21
+
+  audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);  // Закомментировать при DAC
+  audio.setVolume(i);                            // 0...21
 
   listDir(FILESYSTEM, "/", 0);
   Play(music[0]);
@@ -113,6 +113,7 @@ void Command() {
       Serial.println(i);
     }
   } else if (input_string.equals("4") == true) {  // Плей
+    track = 0;
     Play(music[0]);
   } else if (input_string.equals("5") == true) {  // Пауза/Плей
     if (audio.isRunning()) {
@@ -123,9 +124,10 @@ void Command() {
       flag = true;
     }
     Serial.println("Пауза/Плей");
-  } else if (input_string.equals("6") == true) {  // Перемотка
-    audio.setAudioPlayPosition(50);               // Перемотка на 50-ую секунду
-    Serial.println("Перемотка");
+  } else if (input_string.startsWith("p") == true) {  // Перемотка
+    input_string.replace("p", "");
+    audio.setAudioPlayPosition(input_string.toInt());  // Перемотка на 50-ую секунду
+    Serial.println("Перемотка " + input_string);
   } else if (input_string.equals("7") == true) {  // Стоп
     flag = false;
     audio.stopSong();
