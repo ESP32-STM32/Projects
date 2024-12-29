@@ -216,9 +216,6 @@ void Command() {
     flagList = true;
     Serial.println("Обложка выключена");
     List();
-  } else if (input_string.equals("15") == true) {  // Обложка выключена
-    Serial.print("track ");
-    Serial.println(track);
   }
 }
 
