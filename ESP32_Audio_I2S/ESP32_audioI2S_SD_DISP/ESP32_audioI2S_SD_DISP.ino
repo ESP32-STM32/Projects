@@ -142,7 +142,7 @@ void Command() {
     Serial.printf("%d:", fileDurationINT);
     fileDurationINT = audio.getAudioFileDuration() - fileDurationINT * 60;
     if (fileDurationINT < 10) Serial.print("0");
-    Serial.println(fileDurationINT);
+    Serial.println(fileDurationINT + 4);
   } else if (input_string.equals("2") == true) {  // Громкость +
     if (i < 21) {
       i += 1;
