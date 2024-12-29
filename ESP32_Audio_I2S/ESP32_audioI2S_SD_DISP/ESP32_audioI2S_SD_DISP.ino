@@ -22,7 +22,7 @@ String currentTimeSTR = "0:00";
 int fileDurationINT = 0;
 String fileDurationSTR = "0:00";
 
-int i = 4;  // Уровень громкости 0 - 21
+int i = 18;  // Уровень громкости 0 - 21
 String music[10];
 String musicName[10];
 int sizeM = 0;
@@ -58,9 +58,13 @@ void listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
       }
     } else {
       String text = file.name();
-      if (text.endsWith(".mp3") || text.endsWith(".ogg") || text.endsWith(".m4a") || text.endsWith(".opus") || text.endsWith(".wav")) {
+      if (text.endsWith(".mp3") || text.endsWith(".m4a") || text.endsWith(".opus") || text.endsWith(".wav")) {
         Serial.println(file.name());
-        music[m] = dirname + text;
+        if (String(dirname) != "/") {
+          music[m] = String(dirname) + "/" + String(text);  // /Music/name.mp3
+        } else {
+          music[m] = dirname + text;
+        }
         musicName[m] = text;
         m++;
       }
@@ -102,7 +106,7 @@ void setup() {
   audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT); // Закомментировать при DAC
   audio.setVolume(i);  // 0...21
 
-  listDir(SD, "/", 0);
+  listDir(SD, "/Music", 0);
   //Play(music[0]);
   List();
   DurStop();
@@ -192,7 +196,7 @@ void Command() {
       Play(music[track]);
     }
   } else if (input_string.equals("10") == true) {  // Заполнить массив треков и показать в Serial
-    listDir(SD, "/", 0);
+    listDir(SD, "/Music", 0);
   } else if (input_string.equals("11") == true) {  // Включить повтор
     flagLoop = true;
     Serial.println("Повтор включен");
@@ -315,9 +319,9 @@ void Duration() {
       dur.printf("%d:", fileDurationINT);
       fileDurationINT = audio.getAudioFileDuration() - fileDurationINT * 60;
       if (fileDurationINT < 10) dur.print("0");
-      dur.print(fileDurationINT);
+      dur.print(fileDurationINT + 4);
 
-      duration = map(audio.getAudioCurrentTime(), 0, audio.getAudioFileDuration(), 39, 174);
+      duration = map(audio.getAudioCurrentTime(), 0, audio.getAudioFileDuration() + 4, 39, 174);
 
       if (duration >= 39) {
         dur.fillRect(duration, 2, 5, 12, TFT_RED);
