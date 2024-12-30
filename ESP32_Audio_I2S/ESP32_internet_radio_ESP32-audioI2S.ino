@@ -8,7 +8,7 @@
 Audio audio(true, I2S_DAC_CHANNEL_BOTH_EN);  // LEFT(26) | RIGHT(25) | Аналоговый сигнал DAC
 //Audio audio;  // I2S PCM5102A GND = FMT, SCK, DEMP | 3V3 = XSMT // GND = FLT | Цифровой сигнал I2S
 
-const char *SSID = "iPhone 5se";
+const char *SSID = "iPhone 5s";
 const char *PASSWORD = "12345678";
 
 const char *URL[] = { "http://vladfm.ru:8000/vfm",                   // Владивосток FM
